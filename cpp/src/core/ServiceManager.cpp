@@ -49,6 +49,35 @@ std::pair<bool, QString> ServiceManager::startService(const QString &serviceName
     return executeSystemctlAction(QStringLiteral("start"), serviceName, isUserService);
 }
 
+std::pair<bool, QString> ServiceManager::postStartCommand(const QString &command)
+{
+    QString program = "/bin/bash";
+    QStringList args;
+    args << "-c" << command;
+    
+    QProcess process;
+    process.start(program, args);
+
+    if (!process.waitForFinished(m_timeout)) {
+        const QString msg = QStringLiteral("Timeout while trying to %1 %2").arg(program + " -c \"", command + "\"");
+        qCWarning(lcServiceManager) << msg;
+        return {false, msg};
+    }
+
+    if (process.exitCode() != 0) {
+        const QString err = QString::fromUtf8(process.readAllStandardError()).trimmed();
+        const QString msg = err.isEmpty()
+            ? QStringLiteral("Failed to %1 %2").arg(program + " -c \"", command + "\"")
+            : err;
+        qCWarning(lcServiceManager) << "Failed to run " << command << ":" << msg;
+        return {false, msg};
+    }
+
+    qCInfo(lcServiceManager) << "Successful ran " << command;
+    return {true, {}};
+
+}
+
 std::pair<bool, QString> ServiceManager::stopService(const QString &serviceName, bool isUserService)
 {
     return executeSystemctlAction(QStringLiteral("stop"), serviceName, isUserService);

@@ -127,6 +127,11 @@ void AddServiceDialog::initUi()
     m_serviceTypeInput->setReadOnly(true);
     m_serviceTypeInput->setPlaceholderText(QStringLiteral("Auto-detected"));
     form->addRow(QStringLiteral("Service Type:"), m_serviceTypeInput);
+    
+    m_servicePostStartCmd = new QLineEdit();
+    m_servicePostStartCmd->setPlaceholderText(QStringLiteral("Command to run after starting"));
+    form->addRow(QStringLiteral("Post Start Command:"), m_servicePostStartCmd);
+
 
     // Checkboxes
     m_autoStartCheckbox = new QCheckBox(QStringLiteral("Start service when app launches"));
@@ -287,12 +292,15 @@ void AddServiceDialog::onAccept()
     QString serviceType = m_serviceTypeInput->text().trimmed();
     if (serviceType.isEmpty()) serviceType = QStringLiteral("user");
 
+    QString postStartCmd = m_servicePostStartCmd->text().trimmed();    
+    
     m_serviceConfig.name = name;
     m_serviceConfig.displayName = displayName;
     m_serviceConfig.icon = iconLight;
     m_serviceConfig.iconLight = (iconLight != m_serviceConfig.icon) ? iconLight : QString();
     m_serviceConfig.iconDark = (iconDark != m_serviceConfig.icon) ? iconDark : QString();
     m_serviceConfig.serviceType = serviceType;
+    m_serviceConfig.postStartCmd = postStartCmd;
     m_serviceConfig.autoStart = m_autoStartCheckbox->isChecked();
     m_serviceConfig.enabled = m_enabledCheckbox->isChecked();
 

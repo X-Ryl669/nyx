@@ -43,6 +43,7 @@ private:
     QLabel *m_lightIconPreview = nullptr;
     QLabel *m_darkIconPreview = nullptr;
     QLineEdit *m_serviceTypeInput = nullptr;
+    QLineEdit *m_servicePostStartCmd = nullptr;
     QCheckBox *m_autoStartCheckbox = nullptr;
     QCheckBox *m_enabledCheckbox = nullptr;
 

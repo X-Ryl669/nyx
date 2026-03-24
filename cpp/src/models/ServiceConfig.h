@@ -12,6 +12,7 @@ struct ServiceConfig {
     QString iconLight;
     QString iconDark;
     QString serviceType = QStringLiteral("user");
+    QString postStartCmd;
     bool autoStart = false;
     bool enabled = true;
 

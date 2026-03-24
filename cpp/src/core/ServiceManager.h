@@ -22,6 +22,7 @@ public:
     std::pair<bool, QString> restartService(const QString &serviceName, bool isUserService = true);
     std::pair<bool, QString> enableService(const QString &serviceName, bool isUserService = true);
     std::pair<bool, QString> disableService(const QString &serviceName, bool isUserService = true);
+    std::pair<bool, QString> postStartCommand(const QString &command);
 
     QString getServiceLogs(const QString &serviceName, int lines = 100,
                            bool isUserService = true) const;

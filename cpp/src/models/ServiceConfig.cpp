@@ -47,6 +47,7 @@ QJsonObject ServiceConfig::toJson() const
     obj[QLatin1String("icon")] = icon;
     obj[QLatin1String("service_type")] = serviceType;
     obj[QLatin1String("auto_start")] = autoStart;
+    obj[QLatin1String("post_start_cmd")] = postStartCmd;
     obj[QLatin1String("enabled")] = enabled;
 
     if (!iconLight.isEmpty() && iconLight != icon) {
@@ -74,6 +75,7 @@ ServiceConfig ServiceConfig::fromJson(const QJsonObject &obj)
     config.iconDark = obj[QLatin1String("icon_dark")].toString();
     config.serviceType = obj[QLatin1String("service_type")].toString(QStringLiteral("user"));
     config.autoStart = obj[QLatin1String("auto_start")].toBool(false);
+    config.postStartCmd = obj[QLatin1String("post_start_cmd")].toString();
     config.enabled = obj[QLatin1String("enabled")].toBool(true);
 
     return config;
