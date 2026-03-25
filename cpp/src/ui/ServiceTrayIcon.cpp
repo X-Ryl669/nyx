@@ -10,6 +10,8 @@
 
 Q_LOGGING_CATEGORY(lcServiceTrayIcon, "nyx.ui.servicetrayicon")
 
+extern bool sendShowWindowSignal();
+
 namespace nyx::ui {
 
 using nyx::models::ServiceStatus;
@@ -69,6 +71,7 @@ void ServiceTrayIcon::onThemeChanged()
     updateIcon();
 }
 
+
 void ServiceTrayIcon::createMenu()
 {
     auto *menu = new QMenu();
@@ -81,7 +84,7 @@ void ServiceTrayIcon::createMenu()
 
     m_startAction = menu->addAction(QStringLiteral("Start"), this, [this]() {
         qCInfo(lcServiceTrayIcon) << "Start requested for" << m_config.name;
-        emit startRequested(m_config.name, m_config.serviceType);
+        emit startRequested(m_config.name, m_config.serviceType, m_config.postStartCmd);
     });
 
     m_stopAction = menu->addAction(QStringLiteral("Stop"), this, [this]() {
@@ -111,6 +114,11 @@ void ServiceTrayIcon::createMenu()
     menu->addAction(QStringLiteral("Remove from Tray"), this, [this]() {
         qCInfo(lcServiceTrayIcon) << "Remove requested for" << m_config.name;
         emit removeRequested(m_config.name, m_config.serviceType);
+    });
+
+    menu->addSeparator();
+    menu->addAction(QStringLiteral("Show Manager"), this, [this]() {
+        sendShowWindowSignal();
     });
 
     // Delete old menu

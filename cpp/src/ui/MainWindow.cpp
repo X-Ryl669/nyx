@@ -185,8 +185,8 @@ QWidget *MainWindow::createActionsWidget(const ServiceConfig &service, ServiceSt
     auto *startBtn = new QPushButton(QStringLiteral("Start"));
     startBtn->setMaximumWidth(60);
     startBtn->setEnabled(status != ServiceStatus::Active);
-    connect(startBtn, &QPushButton::clicked, this, [this, name = service.name, type = service.serviceType]() {
-        emit serviceStartRequested(name, type);
+    connect(startBtn, &QPushButton::clicked, this, [this, name = service.name, type = service.serviceType, postStartCmd = service.postStartCmd]() {
+        emit serviceStartRequested(name, type, postStartCmd);
     });
     layout->addWidget(startBtn);
 
@@ -198,7 +198,7 @@ QWidget *MainWindow::createActionsWidget(const ServiceConfig &service, ServiceSt
     });
     layout->addWidget(stopBtn);
 
-    auto *moreBtn = new QPushButton(QStringLiteral("\xe2\x8b\xae")); // Unicode vertical ellipsis
+    auto *moreBtn = new QPushButton(QStringLiteral("...")); // Unicode vertical ellipsis
     moreBtn->setMaximumWidth(30);
     connect(moreBtn, &QPushButton::clicked, this, [this, service, moreBtn]() {
         showServiceMenu(service, moreBtn);

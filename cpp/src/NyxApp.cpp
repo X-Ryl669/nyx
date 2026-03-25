@@ -260,7 +260,7 @@ void NyxApp::notifyStatusChange(const QString &name, const QString & /*type*/,
     }
 }
 
-void NyxApp::onStartRequested(const QString &name, const QString &type)
+void NyxApp::onStartRequested(const QString &name, const QString &type, const QString &postStartCmd)
 {
     qCInfo(lcNyxApp) << "Starting service:" << name << "(" << type << ")";
     auto [ok, err] = m_serviceManager.startService(name, type == QLatin1String("user"));
@@ -268,13 +268,13 @@ void NyxApp::onStartRequested(const QString &name, const QString &type)
         m_notificationManager.notifyError(QStringLiteral("Service Start Failed"),
                                           QStringLiteral("Failed to start %1:\n%2").arg(name, err));
     } 
-/*    else if (!service.postStartCmd.isEmpty()){
-        auto res = m_serviceManager.postStartCommand(service.postStartCmd);
+    else if (!postStartCmd.isEmpty()){
+        auto res = m_serviceManager.postStartCommand(postStartCmd);
         if (!res.first) {
-            qCWarning(lcNyxApp) << "Failed to post-start" << service.postStartCmd << ":" << res.second;
+            qCWarning(lcNyxApp) << "Failed to post-start" << postStartCmd << ":" << res.second;
         }
     }
-*/
+
     updateAllServices();
 }
 
@@ -503,5 +503,7 @@ void NyxApp::cleanup()
 
     qCInfo(lcNyxApp) << "Cleanup complete";
 }
+
+
 
 } // namespace nyx

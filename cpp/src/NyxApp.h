@@ -59,7 +59,7 @@ private:
                             nyx::models::ServiceStatus newStatus);
 
     // Slots for signals
-    void onStartRequested(const QString &name, const QString &type);
+    void onStartRequested(const QString &name, const QString &type, const QString &postStartCmd);
     void onStopRequested(const QString &name, const QString &type);
     void onRestartRequested(const QString &name, const QString &type);
     void onAddService();

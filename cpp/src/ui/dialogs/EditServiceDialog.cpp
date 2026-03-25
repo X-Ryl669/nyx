@@ -96,6 +96,11 @@ void EditServiceDialog::initUi()
     m_serviceTypeInput->setReadOnly(true);
     form->addRow(QStringLiteral("Service Type:"), m_serviceTypeInput);
 
+    m_servicePostStartCmd = new QLineEdit();
+    m_servicePostStartCmd->setPlaceholderText(QStringLiteral("Command to run after starting"));
+    form->addRow(QStringLiteral("Post Start Command:"), m_servicePostStartCmd);
+
+    
     m_autoStartCheckbox = new QCheckBox(QStringLiteral("Start service when app launches"));
     form->addRow(QString(), m_autoStartCheckbox);
 
@@ -116,6 +121,7 @@ void EditServiceDialog::populateFields()
     m_nameInput->setText(m_originalConfig.name);
     m_displayNameInput->setText(m_originalConfig.displayName);
     m_serviceTypeInput->setText(m_originalConfig.serviceType);
+    m_servicePostStartCmd->setText(m_originalConfig.postStartCmd);
     m_autoStartCheckbox->setChecked(m_originalConfig.autoStart);
     m_enabledCheckbox->setChecked(m_originalConfig.enabled);
 
@@ -215,6 +221,7 @@ void EditServiceDialog::onAccept()
     m_updatedConfig.icon = iconLight;
     m_updatedConfig.iconLight = (iconLight != m_updatedConfig.icon) ? iconLight : QString();
     m_updatedConfig.iconDark = (iconDark != m_updatedConfig.icon) ? iconDark : QString();
+    m_updatedConfig.postStartCmd = m_servicePostStartCmd ? m_servicePostStartCmd->text().trimmed() : QString();
     m_updatedConfig.autoStart = m_autoStartCheckbox->isChecked();
     m_updatedConfig.enabled = m_enabledCheckbox->isChecked();
 

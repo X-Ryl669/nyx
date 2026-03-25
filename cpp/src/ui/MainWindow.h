@@ -29,7 +29,7 @@ public:
                         const QHash<ServiceKey, nyx::models::ServiceStatus> &statuses);
 
 signals:
-    void serviceStartRequested(const QString &name, const QString &type);
+    void serviceStartRequested(const QString &name, const QString &type, const QString &postStartCmd);
     void serviceStopRequested(const QString &name, const QString &type);
     void serviceRestartRequested(const QString &name, const QString &type);
     void serviceAddRequested();

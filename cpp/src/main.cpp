@@ -89,7 +89,7 @@ static void setupLogging()
 // Single-instance IPC
 // ---------------------------------------------------------------------------
 
-static bool sendShowWindowSignal()
+bool sendShowWindowSignal()
 {
     const int maxRetries = 5;
     const int retryDelays[] = {100, 200, 500, 1000, 2000};

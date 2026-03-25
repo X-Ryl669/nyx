@@ -26,7 +26,7 @@ public:
     const nyx::models::ServiceConfig &serviceConfig() const { return m_config; }
 
 signals:
-    void startRequested(const QString &name, const QString &type);
+    void startRequested(const QString &name, const QString &type, const QString &postStartCmd);
     void stopRequested(const QString &name, const QString &type);
     void restartRequested(const QString &name, const QString &type);
     void viewLogsRequested(const QString &name, const QString &type);
